@@ -1,0 +1,40 @@
+﻿@model IEnumerable<SemestralkaVAII.Models.Kryptomeny>
+
+<section>
+    <div>
+        <table class="table" id="Meny">
+            <thead id="hlavicka" class="position-sticky thead-dark">
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">LogoUrl</th>
+                    <th scope="col">Nazov</th>
+                    <th scope="col">Cena</th>
+                    <th scope="col">Zmena</th>
+                    <th scope="col">ZmenaPercent</th>
+                    <th scope="col">PocetTokenov</th>
+                    <th scope="col">CenaCelkovo</th>
+                    <th scope="col">Oblubene</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ foreach (var temp in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => temp.Id)</td>
+                            <td><img src="@Html.DisplayFor(modelItem => temp.LogoUrl)" width="48" /></td>
+                            <td>@Html.DisplayFor(modelItem => temp.Nazov)</td>
+                            <td>@Html.DisplayFor(modelItem => temp.Cena)</td>
+                            <td>@Html.DisplayFor(modelItem => temp.Zmena)</td>
+                            <td>@Html.DisplayFor(modelItem => temp.ZmenaPercent)</td>
+                            <td>@Html.DisplayFor(modelItem => temp.PocetTokenov)</td>
+                            <td>@Html.DisplayFor(modelItem => temp.CenaCelkovo)</td>
+                            <td>
+                                <a href="Kryptomeny/Uprav/@temp.Id">Upraviť</a>
+                                <br /><a href="Kryptomeny/Zmazat/@temp.Id">Zmaž</a>
+                            </td>
+                        </tr>
+                    }
+                }
+        </table>
+    </div>
+</section>
