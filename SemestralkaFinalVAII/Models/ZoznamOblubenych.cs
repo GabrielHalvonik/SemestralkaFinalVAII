@@ -10,8 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace SemestralkaFinalVAII.Models {
 
     public class ZoznamOblubenych {
-
-        [ForeignKey("UserId")]
+        //[ForeignKey("UserId")]
+        [Key]
         public string UserId { get; set; }
 
         public List<OblubenaMena> Oblubene { get; set; }

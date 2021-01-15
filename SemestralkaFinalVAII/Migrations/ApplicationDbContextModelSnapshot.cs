@@ -217,6 +217,31 @@ namespace SemestralkaFinalVAII.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("SemestralkaFinalVAII.Models.OblubenaMena", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ZoznamOblubenychUserId")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ZoznamOblubenychUserId");
+
+                    b.ToTable("OblubenaMena");
+                });
+
+            modelBuilder.Entity("SemestralkaFinalVAII.Models.ZoznamOblubenych", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Oblubene");
+                });
+
             modelBuilder.Entity("SemestralkaVAII.Models.Kryptomeny", b =>
                 {
                     b.Property<string>("Id")
@@ -299,6 +324,18 @@ namespace SemestralkaFinalVAII.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SemestralkaFinalVAII.Models.OblubenaMena", b =>
+                {
+                    b.HasOne("SemestralkaFinalVAII.Models.ZoznamOblubenych", null)
+                        .WithMany("Oblubene")
+                        .HasForeignKey("ZoznamOblubenychUserId");
+                });
+
+            modelBuilder.Entity("SemestralkaFinalVAII.Models.ZoznamOblubenych", b =>
+                {
+                    b.Navigation("Oblubene");
                 });
 #pragma warning restore 612, 618
         }

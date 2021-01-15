@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using SemestralkaVAII.Models;
 using System.Timers;
 using SemestralkaFinalVAII.Data;
+using SemestralkaFinalVAII.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace SemestralkaVAII.Controllers {
 
@@ -20,6 +22,7 @@ namespace SemestralkaVAII.Controllers {
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Index() {
+            //User.
             List<Kryptomeny> kryptomenyList = Context.Kryptomeny.ToList();
             return View(kryptomenyList);
         }
@@ -84,10 +87,29 @@ namespace SemestralkaVAII.Controllers {
             return RedirectToAction("Index", "Kryptomeny");
         }
 
-        public void PridajMedziOblubene(string id) {
-            //if (Context.Prihlaseny != null) {
-            //    Context.Prihlaseny.OblubeneMeny.Add(id);
+        //[HttpPost]
+        public IActionResult PridajMedziOblubene(string id) {
+            Context.Oblubene.Add(new ZoznamOblubenych() {
+                //UserId = UserManager<IdentityUser>(),
+                UserId = User.Identity.Name,
+                Oblubene = new List<OblubenaMena>()
+            }) ;
+            Context.SaveChanges();
+            //if (Context.User)
+            //if (Context.Users.) {
+
+            ////}
+            //if (Context.Kryptomeny.Any(temp => temp.Id == id)) {
+            //    if (!Context.Oblubene.Any(temp => temp.Id == id)) {
+            //        Context.Oblubene.Add(new ZoznamOblubenych {
+            //            Id = id
+            //        });
+            //    } else {
+            //        Context.Oblubene.Remove(Context.Oblubene.Single(temp => temp.Id == id));
+            //    }
+            //    Context.SaveChanges();
             //}
+            return RedirectToAction("Index");
         }
 
         private void UpdateAll(Object source, ElapsedEventArgs args) {

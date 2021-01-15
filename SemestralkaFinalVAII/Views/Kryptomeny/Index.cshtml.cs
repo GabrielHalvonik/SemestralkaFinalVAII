@@ -12,6 +12,5 @@ namespace SemestralkaVAII.Views.Kryptomeny {
     public class IndexModel : PageModel {
         public void OnGet() {
         }
-
     }
 }
