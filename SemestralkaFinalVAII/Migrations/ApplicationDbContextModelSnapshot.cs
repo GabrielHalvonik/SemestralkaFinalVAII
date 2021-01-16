@@ -217,21 +217,6 @@ namespace SemestralkaFinalVAII.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("SemestralkaFinalVAII.Models.OblubenaMena", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ZoznamOblubenychUserId")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ZoznamOblubenychUserId");
-
-                    b.ToTable("OblubenaMena");
-                });
-
             modelBuilder.Entity("SemestralkaFinalVAII.Models.ZoznamOblubenych", b =>
                 {
                     b.Property<string>("UserId")
@@ -270,7 +255,12 @@ namespace SemestralkaFinalVAII.Migrations
                     b.Property<double>("ZmenaPercent")
                         .HasColumnType("double precision");
 
+                    b.Property<string>("ZoznamOblubenychUserId")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ZoznamOblubenychUserId");
 
                     b.ToTable("Kryptomeny");
                 });
@@ -326,7 +316,7 @@ namespace SemestralkaFinalVAII.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SemestralkaFinalVAII.Models.OblubenaMena", b =>
+            modelBuilder.Entity("SemestralkaVAII.Models.Kryptomeny", b =>
                 {
                     b.HasOne("SemestralkaFinalVAII.Models.ZoznamOblubenych", null)
                         .WithMany("Oblubene")

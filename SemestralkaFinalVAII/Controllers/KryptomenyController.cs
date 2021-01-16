@@ -53,11 +53,14 @@ namespace SemestralkaVAII.Controllers {
 
             HttpClient client = new HttpClient();
             string str = client.GetStringAsync("https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=60&page=1&sparkline=false").Result;
+            try {
+                List<Kryptomeny> list = JsonSerializer.Deserialize<List<Kryptomeny>>(str);
+                Context.AddRange(list);
+                Context.SaveChanges();
+            } catch (JsonException exception) {
+                Console.WriteLine(exception.ToString());
+            }
 
-            List<Kryptomeny> list = JsonSerializer.Deserialize<List<Kryptomeny>>(str);
-            Context.AddRange(list);
-
-            Context.SaveChanges();
         }
 
         public IActionResult Uprav(string id) {
@@ -89,27 +92,52 @@ namespace SemestralkaVAII.Controllers {
 
         //[HttpPost]
         public IActionResult PridajMedziOblubene(string id) {
-            Context.Oblubene.Add(new ZoznamOblubenych() {
-                //UserId = UserManager<IdentityUser>(),
-                UserId = User.Identity.Name,
-                Oblubene = new List<OblubenaMena>()
-            }) ;
-            Context.SaveChanges();
-            //if (Context.User)
-            //if (Context.Users.) {
+            string UserName = User.Identity.Name;
 
-            ////}
-            //if (Context.Kryptomeny.Any(temp => temp.Id == id)) {
-            //    if (!Context.Oblubene.Any(temp => temp.Id == id)) {
-            //        Context.Oblubene.Add(new ZoznamOblubenych {
-            //            Id = id
-            //        });
-            //    } else {
-            //        Context.Oblubene.Remove(Context.Oblubene.Single(temp => temp.Id == id));
-            //    }
-            //    Context.SaveChanges();
-            //}
+            if (!Context.Oblubene.Any(temp => temp.UserId == UserName)) {
+                Context.Oblubene.Add(new ZoznamOblubenych() {
+                    UserId = UserName,
+                    Oblubene = new List<string>()
+                });
+                Context.SaveChanges();
+            }
+
+            ZoznamOblubenych meny = Context.Oblubene.Single(temp => temp.UserId == UserName);
+            //if (meny.Oblubene == null)
+                //meny.Oblubene = new List<Kryptomeny>();
+
+            if (!meny.Oblubene.Contains(id)) {
+                meny.Oblubene.Add(id);
+            } else {
+                meny.Oblubene.Remove(id);
+            }
+            Context.SaveChanges();
+
             return RedirectToAction("Index");
+        }
+
+        public IActionResult Portfolio() {
+            //ICollection<Kryptomeny> portfolio = null;
+            //var oblubene = (from fav in Context.Oblubene
+            //                                         where fav.UserId == User.Identity.Name
+            //                                         select fav.Oblubene);
+            //IQueryable<List<string>> oblubene = (from fav in Context.Oblubene
+            //where fav.UserId == User.Identity.Name
+            //select fav.Oblubene);
+            //ICollection<Kryptomeny> result = new List<Kryptomeny>();
+            //foreach (string temp in Context.Oblubene.Single(p => p.UserId == User.Identity.Name).Oblubene) {
+            //    result.Add(Context.Kryptomeny.Single(p => p.Id == temp));
+            //}
+
+            List<string> oblubene = Context.Oblubene.Single(p => p.UserId == User.Identity.Name).Oblubene;
+
+            IQueryable<Kryptomeny> result = from meny in Context.Kryptomeny
+                                            join fav in oblubene
+                                            on meny.Id equals fav
+                                            select meny;
+
+            return RedirectToAction("index", "Kryptomeny", result);
+            //return View(portfolio);
         }
 
         private void UpdateAll(Object source, ElapsedEventArgs args) {

@@ -16,5 +16,14 @@ namespace SemestralkaFinalVAII.Data {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) {
         }
 
+        protected override void OnModelCreating(ModelBuilder builder) {
+            base.OnModelCreating(builder);
+
+            //builder.Entity<ZoznamOblubenych>().
+            //    HasMany(p => p.Oblubene).
+            //    WithMany(p => null).
+            //    UsingEntity(j => j.ToTable("Kryptomeny"));
+            //    //builder.Entity<ZoznamOblubenych>().HasMany(temp => temp.Oblubene);
+        }
     }
 }
