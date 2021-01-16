@@ -9,7 +9,5 @@ namespace SemestralkaFinalVAII.Models {
         //[InverseProperty("Oblubene")]
         //[ForeignKey("id")]
         public string Id { get; set; }
-
-        Kryptomeny zoznam;
     }
 }
