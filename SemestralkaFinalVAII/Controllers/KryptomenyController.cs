@@ -117,18 +117,6 @@ namespace SemestralkaVAII.Controllers {
         }
 
         public IActionResult Portfolio() {
-            //ICollection<Kryptomeny> portfolio = null;
-            //var oblubene = (from fav in Context.Oblubene
-            //                                         where fav.UserId == User.Identity.Name
-            //                                         select fav.Oblubene);
-            //IQueryable<List<string>> oblubene = (from fav in Context.Oblubene
-            //where fav.UserId == User.Identity.Name
-            //select fav.Oblubene);
-            //ICollection<Kryptomeny> result = new List<Kryptomeny>();
-            //foreach (string temp in Context.Oblubene.Single(p => p.UserId == User.Identity.Name).Oblubene) {
-            //    result.Add(Context.Kryptomeny.Single(p => p.Id == temp));
-            //}
-
             List<string> oblubene = Context.Oblubene.Single(p => p.UserId == User.Identity.Name).Oblubene;
 
             IQueryable<Kryptomeny> result = from meny in Context.Kryptomeny
