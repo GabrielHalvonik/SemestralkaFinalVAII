@@ -118,12 +118,19 @@ namespace SemestralkaVAII.Controllers {
 
         public IActionResult Portfolio() {
             List<string> oblubene = Context.Oblubene.Single(p => p.UserId == User.Identity.Name).Oblubene;
+            List<Kryptomeny> result = new List<Kryptomeny>();
+            foreach (string temp in oblubene) {
+                Kryptomeny mena = Context.Kryptomeny.SingleOrDefault(p => p.Id == temp);
+                result.Add(mena);
+            }
+            //IQueryable<string> result = from meny in Context.Kryptomeny
+            //                                join fav in oblubene
+            //                                on meny.Id equals fav
+            //                                select meny.Id;
 
-            IQueryable<Kryptomeny> result = from meny in Context.Kryptomeny
-                                            join fav in oblubene
-                                            on meny.Id equals fav
-                                            select meny;
+            result.ForEach(p => Console.WriteLine(p.Id));
 
+            //return RedirectToAction("index", "Kryptomeny");
             return RedirectToAction("index", "Kryptomeny", result);
             //return View(portfolio);
         }
