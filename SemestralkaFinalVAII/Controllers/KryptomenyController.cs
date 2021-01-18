@@ -8,6 +8,7 @@ using SemestralkaVAII.Models;
 using System.Timers;
 using SemestralkaFinalVAII.Data;
 using SemestralkaFinalVAII.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace SemestralkaVAII.Controllers {
 
@@ -58,7 +59,6 @@ namespace SemestralkaVAII.Controllers {
             } catch (JsonException exception) {
                 Console.WriteLine(exception.ToString());
             }
-
         }
 
         public IActionResult Uprav(string id) {
@@ -137,8 +137,43 @@ namespace SemestralkaVAII.Controllers {
             //return View(portfolio);
         }
 
+        public IActionResult Podrobnosti(string id) {
+            Context.Kryptomeny.RemoveRange(Context.Kryptomeny);
+
+            HttpClient client = new HttpClient();
+            string str = client.GetStringAsync("https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=60&page=1&sparkline=false").Result;
+            try {
+                List<Kryptomeny> list = JsonSerializer.Deserialize<List<Kryptomeny>>(str);
+                Context.AddRange(list);
+                Context.SaveChanges();
+            } catch (JsonException exception) {
+                Console.WriteLine(exception.ToString());
+            }
+
+            return View();
+        }
+
+        public void PotiahniPodrobneData() {
+            Context.Historia.RemoveRange(Context.Historia);
+
+            HttpClient client = new HttpClient();
+            string url = "https://api.coingecko.com/api/v3/coins/{0}/market_chart?vs_currency=eur&days=max";
+            Context.Kryptomeny.ForEachAsync(temp => {
+                string result = client.GetStringAsync(string.Format(url, temp.Id)).Result;
+                try {
+                    HistoriaCeny historia = JsonSerializer.Deserialize<HistoriaCeny>(result);
+                    historia.IdMeny = temp.Id;
+                    Context.AddRange(historia);
+                    Context.SaveChanges();
+                } catch (JsonException exception) {
+                    Console.WriteLine(exception.ToString());
+                }
+            });
+        }
+
         private void UpdateAll(Object source, ElapsedEventArgs args) {
             ReloadFromAPI();
         }
+        
     }
 }
