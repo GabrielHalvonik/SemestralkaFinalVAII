@@ -8,7 +8,6 @@ using SemestralkaVAII.Models;
 using System.Timers;
 using SemestralkaFinalVAII.Data;
 using SemestralkaFinalVAII.Models;
-using Microsoft.AspNetCore.Identity;
 
 namespace SemestralkaVAII.Controllers {
 
@@ -22,7 +21,6 @@ namespace SemestralkaVAII.Controllers {
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Index() {
-            //User.
             List<Kryptomeny> kryptomenyList = Context.Kryptomeny.ToList();
             return View(kryptomenyList);
         }
@@ -92,17 +90,20 @@ namespace SemestralkaVAII.Controllers {
 
         //[HttpPost]
         public IActionResult PridajMedziOblubene(string id) {
-            string UserName = User.Identity.Name;
+            //string UserID = Context.Users.Where(p => p.Email == User.Identity.Name).Single().Id;
+            string UserID = Context.Users.Single(p => p.Email == User.Identity.Name).Id;
+            Console.WriteLine(id + " " + UserID + "\n");
 
-            if (!Context.Oblubene.Any(temp => temp.UserId == UserName)) {
+
+            if (!Context.Oblubene.Any(temp => temp.UserId == UserID)) {
                 Context.Oblubene.Add(new ZoznamOblubenych() {
-                    UserId = UserName,
+                    UserId = UserID,
                     Oblubene = new List<string>()
                 });
                 Context.SaveChanges();
             }
 
-            ZoznamOblubenych meny = Context.Oblubene.Single(temp => temp.UserId == UserName);
+            ZoznamOblubenych meny = Context.Oblubene.Single(temp => temp.UserId == UserID);
             //if (meny.Oblubene == null)
                 //meny.Oblubene = new List<Kryptomeny>();
 
@@ -117,21 +118,22 @@ namespace SemestralkaVAII.Controllers {
         }
 
         public IActionResult Portfolio() {
-            List<string> oblubene = Context.Oblubene.Single(p => p.UserId == User.Identity.Name).Oblubene;
+            string UserID = Context.Users.Where(p => p.Email == User.Identity.Name).Single().Id;
+
+            List<string> oblubene = Context.Oblubene.Single(p => p.UserId == UserID).Oblubene;
             List<Kryptomeny> result = new List<Kryptomeny>();
             foreach (string temp in oblubene) {
                 Kryptomeny mena = Context.Kryptomeny.SingleOrDefault(p => p.Id == temp);
                 result.Add(mena);
             }
             //IQueryable<string> result = from meny in Context.Kryptomeny
-            //                                join fav in oblubene
-            //                                on meny.Id equals fav
-            //                                select meny.Id;
+            //                            join fav in oblubene
+            //                            on meny.Id equals fav
+            //                            select meny.Id;
 
             result.ForEach(p => Console.WriteLine(p.Id));
-
             //return RedirectToAction("index", "Kryptomeny");
-            return RedirectToAction("index", "Kryptomeny", result);
+            return View("Index", result);
             //return View(portfolio);
         }
 
