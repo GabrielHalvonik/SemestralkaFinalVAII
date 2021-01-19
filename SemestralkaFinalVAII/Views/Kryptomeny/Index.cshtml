@@ -20,7 +20,7 @@
                 @{ foreach (var temp in Model)
                     {
                         <tr>
-                            <td>@Html.DisplayFor(modelItem => temp.Id)</td>
+                            <td><a href="Kryptomeny/Podrobnosti?id=@temp.Id">@Html.DisplayFor(modelItem => temp.Id)</a></td>
                             <td><img src="@Html.DisplayFor(modelItem => temp.LogoUrl)" width="48" /></td>
                             <td>@Html.DisplayFor(modelItem => temp.Nazov)</td>
                             <td>@Html.DisplayFor(modelItem => temp.Cena)</td>

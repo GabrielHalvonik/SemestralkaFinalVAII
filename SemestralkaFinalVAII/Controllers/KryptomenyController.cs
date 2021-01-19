@@ -9,6 +9,8 @@ using System.Timers;
 using SemestralkaFinalVAII.Data;
 using SemestralkaFinalVAII.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
+using System.Net;
 
 namespace SemestralkaVAII.Controllers {
 
@@ -91,9 +93,12 @@ namespace SemestralkaVAII.Controllers {
         //[HttpPost]
         public IActionResult PridajMedziOblubene(string id) {
             //string UserID = Context.Users.Where(p => p.Email == User.Identity.Name).Single().Id;
-            string UserID = Context.Users.Single(p => p.Email == User.Identity.Name).Id;
+            string UserID = Context.Users.SingleOrDefault(p => p.Email == User.Identity.Name)?.Id;
             Console.WriteLine(id + " " + UserID + "\n");
 
+            if (UserID == null) {
+                return RedirectToAction("Index");
+            }
 
             if (!Context.Oblubene.Any(temp => temp.UserId == UserID)) {
                 Context.Oblubene.Add(new ZoznamOblubenych() {
@@ -140,8 +145,8 @@ namespace SemestralkaVAII.Controllers {
         public IActionResult Podrobnosti(string id) {
             Context.Kryptomeny.RemoveRange(Context.Kryptomeny);
 
-            HttpClient client = new HttpClient();
-            string str = client.GetStringAsync("https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=60&page=1&sparkline=false").Result;
+            WebClient client = new WebClient();
+            string str = client.DownloadString("https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=60&page=1&sparkline=false");
             try {
                 List<Kryptomeny> list = JsonSerializer.Deserialize<List<Kryptomeny>>(str);
                 Context.AddRange(list);
@@ -153,23 +158,68 @@ namespace SemestralkaVAII.Controllers {
             return View();
         }
 
-        public void PotiahniPodrobneData() {
+        public IActionResult PotiahniPodrobneData() {
             //Context.Historia.RemoveRange(Context.Historia);
 
-            HttpClient client = new HttpClient();
-            string url = "https://api.coingecko.com/api/v3/coins/{0}/market_chart?vs_currency=eur&days=max";
-            Context.Kryptomeny.ForEachAsync(temp => {
-                string result = client.GetStringAsync(string.Format(url, temp.Id)).Result;
-                try {
-                    HistoriaCeny historia = JsonSerializer.Deserialize<HistoriaCeny>(result);
-                    Console.WriteLine(temp.Id);
-                    //historia.IdMeny = temp.Id;
-                    //Context.AddRange(historia);
-                    //Context.SaveChanges();
-                } catch (JsonException exception) {
-                    Console.WriteLine(exception.ToString());
-                }
-            });
+            //WebClient client = new WebClient();
+            //string url = "https://api.coingecko.com/api/v3/coins/{0}/market_chart?vs_currency=eur&days=max";
+
+            //foreach (var temp in Context.Kryptomeny) {
+            //    string result = client.DownloadString(string.Format(url, temp.Id));
+            //    try {
+            //        HistoriaCeny historia = (HistoriaCeny)JsonSerializer.Deserialize<HistoriaCeny>(result);
+            //        List<HistoriaDataZaznam> prices = new List<HistoriaDataZaznam>();
+            //        List<HistoriaDataZaznam> cap = new List<HistoriaDataZaznam>();
+            //        List<HistoriaDataZaznam> total = new List<HistoriaDataZaznam>();
+
+            //        foreach (List<double> x in historia.Prices) {
+            //            prices.Add(new HistoriaDataZaznam {
+            //                Cas = x[0],
+            //                Hodnota = x[1]
+            //            });
+            //        }
+            //        foreach (List<double> x in historia.MarketCaps) {
+            //            cap.Add(new HistoriaDataZaznam {
+            //                Cas = x[0],
+            //                Hodnota = x[1]
+            //            });
+            //        }
+            //        foreach (List<double> x in historia.TotalVolumes) {
+            //            total.Add(new HistoriaDataZaznam {
+            //                Cas = x[0],
+            //                Hodnota = x[1]
+            //            });
+            //        }
+
+            //        Context.Historia.Add(new HistoriaData {
+            //            IdMeny = temp.Id,
+            //            Prices = prices,
+            //            MarketCaps = cap,
+            //            TotalVolumes = total
+            //        });
+            //            //});
+            //            //historia.IdMeny = temp.Id;
+            //            //Context.AddRange(historia);
+            //            //Context.SaveChanges();
+            //        } catch (JsonException exception) {
+            //        Console.WriteLine(exception.ToString());
+            //    }
+
+            //    Context.SaveChanges();
+            //}
+            //Context.Kryptomeny.ForEachAsync(temp => {
+            //        string result = client.GetStringAsync(string.Format(url, temp.Id)).Result;
+            //        Console.WriteLine(string.Format(url, temp.Id));
+            //        try {
+            //            HistoriaCeny historia = (HistoriaCeny)JsonSerializer.Deserialize<HistoriaCeny>(result);
+            //            //historia.IdMeny = temp.Id;
+            //            //Context.AddRange(historia);
+            //            //Context.SaveChanges();
+            //        } catch (JsonException exception) {
+            //            Console.WriteLine(exception.ToString());
+            //        }
+            //    });
+            return RedirectToAction("Index", "Kryptomeny");
         }
 
         private void UpdateAll(Object source, ElapsedEventArgs args) {

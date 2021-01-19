@@ -12,13 +12,17 @@ namespace SemestralkaFinalVAII.Data {
 
         public DbSet<Kryptomeny> Kryptomeny { get; set; }
         public DbSet<ZoznamOblubenych> Oblubene { get; set; }
-        public DbSet<HistoriaData> Historia { get; set; }
+        //public DbSet<HistoriaData> Historia { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) {
         }
 
         protected override void OnModelCreating(ModelBuilder builder) {
             base.OnModelCreating(builder);
+            //builder.Entity<HistoriaDataZaznam>().HasAlternateKey(p => p.IdMeny);
+            //builder.Entity<HistoriaDataZaznam>()
+            //.Property(p => p.HistoryId)
+            //.ValueGeneratedOnAdd();
 
             //builder.Entity<ZoznamOblubenych>().
             //    HasMany(p => p.Oblubene).
