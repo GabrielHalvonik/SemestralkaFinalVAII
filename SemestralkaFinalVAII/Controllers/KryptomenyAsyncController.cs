@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SemestralkaFinalVAII.Data;
 using SemestralkaFinalVAII.Models;
+using SemestralkaVAII.Models;
 
 namespace SemestralkaFinalVAII.Controllers {
-    [Route("api/[controller]")]
 
+    [Route("api/[controller]")]
     public class KryptomenyAsyncController : Controller {
+
     private readonly ApplicationDbContext Context;
 
         public KryptomenyAsyncController(ApplicationDbContext context) {
@@ -44,13 +46,10 @@ namespace SemestralkaFinalVAII.Controllers {
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id) {
-
+        public void Delete(string id) {
+            Kryptomeny mena = Context.Kryptomeny.Single(temp => temp.Id == id);
+            Context.Kryptomeny.Remove(mena);
+            Context.SaveChanges();
         }
-
-        //[HttpGet()]
-        //public string Get() {
-        //    return "pass";
-        //}
     }
 }
