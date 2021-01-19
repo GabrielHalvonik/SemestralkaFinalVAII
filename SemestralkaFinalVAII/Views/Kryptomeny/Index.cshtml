@@ -29,8 +29,8 @@
                             <td>@Html.DisplayFor(modelItem => temp.PocetTokenov)</td>
                             <td>@Html.DisplayFor(modelItem => temp.CenaCelkovo)</td>
                             <td>
-                                <a href="Kryptomeny/Uprav/@temp.Id">Upraviť</a>
-                                <br /><a href="Kryptomeny/Zmazat/@temp.Id">Zmaž</a>
+                                <a href="Kryptomeny/Uprav?id=@temp.Id">Upraviť</a>
+                                <br /><a href="Kryptomeny/Zmazat?id=@temp.Id">Zmaž</a>
                                 <br /><a href="Kryptomeny/PridajMedziOblubene?id=@temp.Id">Oblubene</a>
                             </td>
                         </tr>
