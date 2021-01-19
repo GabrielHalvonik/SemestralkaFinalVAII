@@ -1,0 +1,26 @@
+﻿@model SemestralkaVAII.Models.HistoriaCeny
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<section>
+    <div>
+        <canvas id="graf"></canvas>
+    </div>
+</section>
+<script>
+
+    var varData = JSON.parse('@Json.Serialize(@Model.Prices)');
+
+    new Chart(
+        document.getElementById("graf"),
+        {
+            type: "line", "data": {
+                labels: varData.map(a => ''),
+                "datasets": [{
+                    "label": "My First Dataset",
+                    "data": varData.map(a => a[1]),
+                    "fill": false, "borderColor": "rgb(75, 192, 192)",
+                }]
+            }, "options": {}
+        });
+
+</script>
