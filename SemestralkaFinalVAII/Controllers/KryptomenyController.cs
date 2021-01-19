@@ -154,7 +154,7 @@ namespace SemestralkaVAII.Controllers {
         }
 
         public void PotiahniPodrobneData() {
-            Context.Historia.RemoveRange(Context.Historia);
+            //Context.Historia.RemoveRange(Context.Historia);
 
             HttpClient client = new HttpClient();
             string url = "https://api.coingecko.com/api/v3/coins/{0}/market_chart?vs_currency=eur&days=max";
@@ -162,9 +162,10 @@ namespace SemestralkaVAII.Controllers {
                 string result = client.GetStringAsync(string.Format(url, temp.Id)).Result;
                 try {
                     HistoriaCeny historia = JsonSerializer.Deserialize<HistoriaCeny>(result);
-                    historia.IdMeny = temp.Id;
-                    Context.AddRange(historia);
-                    Context.SaveChanges();
+                    Console.WriteLine(temp.Id);
+                    //historia.IdMeny = temp.Id;
+                    //Context.AddRange(historia);
+                    //Context.SaveChanges();
                 } catch (JsonException exception) {
                     Console.WriteLine(exception.ToString());
                 }

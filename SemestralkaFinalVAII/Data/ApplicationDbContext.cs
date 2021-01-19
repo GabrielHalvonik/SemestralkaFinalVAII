@@ -12,7 +12,7 @@ namespace SemestralkaFinalVAII.Data {
 
         public DbSet<Kryptomeny> Kryptomeny { get; set; }
         public DbSet<ZoznamOblubenych> Oblubene { get; set; }
-        public DbSet<HistoriaCeny> Historia { get; set; }
+        public DbSet<HistoriaData> Historia { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) {
         }
