@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using SemestralkaFinalVAII.Controllers;
 using SemestralkaFinalVAII.Models;
 using SemestralkaVAII.Models;
 
@@ -12,7 +13,7 @@ namespace SemestralkaFinalVAII.Data {
 
         public DbSet<Kryptomeny> Kryptomeny { get; set; }
         public DbSet<ZoznamOblubenych> Oblubene { get; set; }
-        //public DbSet<HistoriaData> Historia { get; set; }
+        public DbSet<ZmenarenData> Zmenarne { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) {
         }

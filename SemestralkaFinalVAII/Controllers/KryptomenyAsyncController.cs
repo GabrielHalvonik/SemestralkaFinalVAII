@@ -21,8 +21,6 @@ namespace SemestralkaFinalVAII.Controllers {
         [HttpPut("{id}")]
         public void Put(string id) {
             string UserID = Context.Users.SingleOrDefault(p => p.Email == User.Identity.Name)?.Id;
-            Console.WriteLine(id + " " + UserID + "\n");
-
             if (UserID == null) {
                 return;
             }
@@ -47,9 +45,11 @@ namespace SemestralkaFinalVAII.Controllers {
 
         [HttpDelete("{id}")]
         public void Delete(string id) {
-            Kryptomeny mena = Context.Kryptomeny.Single(temp => temp.Id == id);
-            Context.Kryptomeny.Remove(mena);
-            Context.SaveChanges();
+            Kryptomeny mena = Context.Kryptomeny.SingleOrDefault(temp => temp.Id == id);
+            if (mena != null) {
+                Context.Kryptomeny.Remove(mena);
+                Context.SaveChanges();
+            }
         }
     }
 }

@@ -1,44 +1,64 @@
 ﻿@model IEnumerable<SemestralkaVAII.Models.Kryptomeny>
+@using Microsoft.AspNetCore.Identity
 
 <section>
     <div>
-        <table class="table" id="Meny">
+        <table class="table table-hover rozsirene" id="Meny">
             <thead id="hlavicka" class="position-sticky thead-dark">
                 <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">LogoUrl</th>
+                    <th scope="col"></th>
+                    <th scope="col">Logo</th>
                     <th scope="col">Nazov</th>
                     <th scope="col">Cena</th>
-                    <th scope="col">Zmena</th>
+                    <th scope="col">Zmena (24h)</th>
                     <th scope="col">ZmenaPercent</th>
                     <th scope="col">PocetTokenov</th>
                     <th scope="col">CenaCelkovo</th>
-                    <th scope="col">Oblubene</th>
+                    @if (User.IsInRole("Admin")) {
+                        <th scope="col">Operacie</th>
+                    }
                 </tr>
             </thead>
-            <tbody>
-                @{ foreach (var temp in Model)
-                    {
-                        <tr>
-                            <td><a href="Kryptomeny/Podrobnosti?id=@temp.Id">@Html.DisplayFor(modelItem => temp.Id)</a></td>
-                            <td><img src="@Html.DisplayFor(modelItem => temp.LogoUrl)" width="48" /></td>
-                            <td>@Html.DisplayFor(modelItem => temp.Nazov)</td>
-                            <td>@Html.DisplayFor(modelItem => temp.Cena)</td>
-                            <td>@Html.DisplayFor(modelItem => temp.Zmena)</td>
-                            <td>@Html.DisplayFor(modelItem => temp.ZmenaPercent)</td>
-                            <td>@Html.DisplayFor(modelItem => temp.PocetTokenov)</td>
-                            <td>@Html.DisplayFor(modelItem => temp.CenaCelkovo)</td>
+            <tbody id="tabulka" class="biele">
+            @{ foreach (var temp in Model) {
+                    <tr>
+                        <td>
+                            <label class="prepinac">
+                                <input type="checkbox" onclick="putFunction('@temp.Id')">
+                                <span class="btnOblubene round"></span>
+                            </label>
+                        </td>
+                        <td><img src="@Html.DisplayFor(modelItem => temp.LogoUrl)" width="48" /></td>
+                        <td><a href="Kryptomeny/Podrobnosti?id=@temp.Id">@Html.DisplayFor(modelItem => temp.Nazov)</a></td>
+                        <td>@Html.DisplayFor(modelItem => temp.Cena)</td>
+                        @if (temp.Zmena >= 0)
+                        {
+                            <td class="vpluse">@Html.DisplayFor(modelItem => temp.Zmena)</td>
+                            <td class="vpluse">@Html.DisplayFor(modelItem => temp.ZmenaPercent)</td>
+                        }
+                        else
+                        {
+                            <td class="vminuse">@Html.DisplayFor(modelItem => temp.Zmena)</td>
+                            <td class="vminuse">@Html.DisplayFor(modelItem => temp.ZmenaPercent)</td>
+                        }
+                        <td>@Html.DisplayFor(modelItem => temp.PocetTokenov)</td>
+                        <td>@Html.DisplayFor(modelItem => temp.CenaCelkovo)</td>
+                        @if (User.IsInRole("Admin")) {
                             <td>
-                                <a href="Kryptomeny/Uprav?id=@temp.Id">Upraviť</a>
-                                <br /><a href="", onclick="deleteFunction('@temp.Id')">Zmaž</a>
-                                <br /><a href="", onclick="putFunction('@temp.Id')">Oblubene</a>
+                                <button type="button" class="btn btn-primary" onclick="window.location.href='Kryptomeny/Uprav?id=@temp.Id'">Uprav</button>
+                                <button type="button" class="btn btn-danger" onclick="deleteFunction('@temp.Id')">Zmaž</button>
                             </td>
-                        </tr>
-                    }
-                }
+                        }
+                    </tr>
+               }
+            }
         </table>
     </div>
 </section>
+
+<script runat="server">
+    this.Zmena.Attributes.Add("class", "vpluse");
+</script>
 
 <script>
     function putFunction(par) {
@@ -50,6 +70,10 @@
     function deleteFunction(par) {
         var http = new XMLHttpRequest();
         http.open("DELETE", "https://localhost:5001/api/KryptomenyAsync/" + par);
+        http.onreadystatechange = () => {
+            location.reload();
+        }
         http.send();
     }
 </script>
+

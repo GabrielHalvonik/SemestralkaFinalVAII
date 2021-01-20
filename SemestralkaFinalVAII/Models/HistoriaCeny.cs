@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using SemestralkaFinalVAII.Models;
 
 namespace SemestralkaVAII.Models {
 
     [Serializable]
     public class HistoriaCeny {
-
-        //[ForeignKey("Id")]
-        //public string IdMeny { get; set; }
-
         [JsonPropertyName("prices")]
         public double[][] Prices { get; set; }
 

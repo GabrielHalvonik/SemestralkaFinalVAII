@@ -6,10 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SemestralkaFinalVAII.Models {
 
-    [Keyless]
+    //[Keyless]
     public class HistoriaData {
 
-        [ForeignKey("Id")]
+        //public string Id { get; set; }
+
+        //[ForeignKey("Id")]
+        [Key]
         public string IdMeny { get; set; }
 
         public List<HistoriaDataZaznam> Prices { get; set; }
