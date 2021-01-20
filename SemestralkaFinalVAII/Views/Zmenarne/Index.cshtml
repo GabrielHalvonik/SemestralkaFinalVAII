@@ -13,11 +13,14 @@
                     <th scope="col">Skore</th>
                     <th scope="col">Objem (btc/24h)</th>
                     <th scope="col">Link</th>
+                    @if (User.IsInRole("Admin")) {
+                        <th scope="col">Operacie</th>
+                    }
                 </tr>
             </thead>
             <tbody id="tabulka" class="biele">
                 @{ foreach (var temp in Model)
-                    {
+                   {
                         <tr>
                             <td>@Html.DisplayFor(modelItem => temp.TrustScoreRank)</td>
                             <td><img src="@Html.DisplayFor(modelItem => temp.Image)" width="48" /></td>
@@ -26,26 +29,28 @@
                             <td>@Html.DisplayFor(modelItem => temp.Country)</td>
                             <td>@Html.DisplayFor(modelItem => temp.TrustScore)</td>
                             <td>@Html.DisplayFor(modelItem => temp.TradeVolume24HBtc)</td>
-                            <td><a href="@temp.Url">Link</a></td>
+                            <td><a href="@temp.Url" target="_blank">Link</a></td>
+                            @if (User.IsInRole("Admin")) {
+                                <td>
+                                    <button type="button" class="btn btn-danger" onclick="deleteFunction('@temp.Id')">Zmaž</button>
+                                </td>
+                            }
                         </tr>
-                    }
+                   }
                 }
         </table>
     </div>
 </section>
 
-@*<script>function putFunction(par) {
-        var http = new XMLHttpRequest();
-        http.open("PUT", "https://localhost:5001/api/KryptomenyAsync/" + par);
-        http.send();
-    }
-
+<script>
     function deleteFunction(par) {
         var http = new XMLHttpRequest();
-        http.open("DELETE", "https://localhost:5001/api/KryptomenyAsync/" + par);
+        http.open("DELETE", "https://localhost:5001/api/ZmenarneAsync/" + par);
         http.onreadystatechange = () => {
             location.reload();
         }
         http.send();
-    }</script>*@
+    }
+</script>
+
 

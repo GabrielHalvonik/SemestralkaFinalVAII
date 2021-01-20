@@ -5,40 +5,41 @@
         <form method="post" asp-action="Uprav">
             <div>
                 <label asp-for="Nazov">Nazov</label>
-                <input type="text"
+                <input type="text" class="form-control form-control-lg"
                        name="Nazov" value="@Model.Nazov">
             </div>
             <div>
                 <label asp-for="Cena">Cena</label>
-                <input type="text" name="Cena"
-                       placeholder="Cena" value="@Model.Cena">
+                <input type="text" class="form-control form-control-lg"
+                       name="Cena" placeholder="Cena" value="@Model.Cena">
             </div>
             <div>
                 <label asp-for="Zmena">Zmena</label>
-                <input type="number" name="Zmena"
-                       placeholder="Zmena" value="@Model.Zmena">
+                <input type="number" class="form-control form-control-lg"
+                       name="Zmena" placeholder="Zmena" value="@Model.Zmena">
             </div>
             <div>
                 <label asp-for="ZmenaPercent" control-label">ZmenaPercent</label>
-                <input type="number" name="ZmenaPercent"
-                       placeholder="ZmenaPercent" value="@Model.ZmenaPercent">
+                <input type="number" class="form-control form-control-lg"
+                       name="ZmenaPercent" placeholder="ZmenaPercent" value="@Model.ZmenaPercent">
             </div>
             <div>
                 <label asp-for="PocetTokenov" control-label">PocetTokenov</label>
-                <input type="number" name="PocetTokenov"
-                       placeholder="PocetTokenov" value="@Model.PocetTokenov">
+                <input type="number" class="form-control form-control-lg"
+                       name="PocetTokenov" placeholder="PocetTokenov" value="@Model.PocetTokenov">
             </div>
             <div>
                 <label asp-for="CenaCelkovo" control-label">CenaCelkovo</label>
-                <input type="number" name="CenaCelkovo"
-                       placeholder="CenaCelkovo" value="@Model.CenaCelkovo">
+                <input type="number" class="form-control form-control-lg"
+                       name="CenaCelkovo" placeholder="CenaCelkovo" value="@Model.CenaCelkovo">
             </div>
             <div>
                 <input type="hidden" name="Id" value="@Model.Id" />
             </div>
+            <br>
             <div class="form-group">
-                <input type="submit" value="Zrušiť" class="btn btn-primary" />
-                <input type="submit" value="Uložiť" class="btn btn-primary" />
+                <input type="submit" value="Zrušiť" class="btn btn-danger btnVzdialene" />
+                <input type="submit" value="Uložiť" class="btn btn-primary btnVzdialene" />
             </div>
         </form>
     </div>

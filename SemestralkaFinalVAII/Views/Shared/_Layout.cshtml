@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -11,12 +14,11 @@
 <body class="dark-mode" id="uvod">
     <header>
         <div id="navigacia">
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow navbar-sticky-top">
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow">
                 <div class="container">
-                <div class="navbar-header">
-                    <img src="~/img/nav-logo.png" alt="logo" class="logoimg" />
-                </div>
-                    <a class="navbar-brand" asp-area="" asp-controller="Kryptomeny" asp-action="Index">Kryptomeny</a>
+                    <div class="navbar-header">
+                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/img/nav-logo.png" alt="logo" class="logoimg" /> </a>
+                    </div>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -24,17 +26,29 @@
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                         <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Kryptomeny" asp-action="Portfolio">Portfolio</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Kryptomeny" asp-action="Index">Kryptomeny</a>
                             </li>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Kryptomeny" asp-action="Portfolio">Portfolio</a>
+                                </li>
+                            }
                             @if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-light" asp-area="" asp-controller="Kryptomeny" asp-action="LoadKryptomeny">LoadKryptomeny</a>
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Kryptomeny" asp-action="LoadKryptomeny">NacitajKryptomeny</a>
                                 </li>
                             }
                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Zmenarne" asp-action="Index">Zmenarne</a>
                             </li>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Zmenarne" asp-action="LoadZmenarne">NacitajZmenarne</a>
+                                </li>
+                            }
                         </ul>
                         <partial name="_LoginPartial" />
                     </div>
@@ -50,7 +64,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - SemestralkaFinalVAII - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2021 - SemestralkaFinalVAII
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

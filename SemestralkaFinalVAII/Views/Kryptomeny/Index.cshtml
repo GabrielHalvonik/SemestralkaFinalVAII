@@ -1,67 +1,76 @@
 ﻿@model IEnumerable<SemestralkaVAII.Models.Kryptomeny>
 @using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
 
 <section>
     <div>
         <table class="table table-hover rozsirene" id="Meny">
             <thead id="hlavicka" class="position-sticky thead-dark">
                 <tr>
-                    <th scope="col"></th>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <th scope="col"></th>
+                    }
                     <th scope="col">Logo</th>
                     <th scope="col">Nazov</th>
                     <th scope="col">Cena</th>
                     <th scope="col">Zmena (24h)</th>
-                    <th scope="col">ZmenaPercent</th>
-                    <th scope="col">PocetTokenov</th>
-                    <th scope="col">CenaCelkovo</th>
-                    @if (User.IsInRole("Admin")) {
-                        <th scope="col">Operacie</th>
+                    <th class="responzivnaTabulka" scope="col">ZmenaPercent</th>
+                    <th class="responzivnaTabulka" scope="col">PocetTokenov</th>
+                    <th class="responzivnaTabulka" scope="col">CenaCelkovo</th>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <th class="responzivnaTabulka" scope="col">Operacie</th>
                     }
                 </tr>
             </thead>
             <tbody id="tabulka" class="biele">
-            @{ foreach (var temp in Model) {
-                    <tr>
-                        <td>
-                            <label class="prepinac">
-                                <input type="checkbox" onclick="putFunction('@temp.Id')">
-                                <span class="btnOblubene round"></span>
-                            </label>
-                        </td>
-                        <td><img src="@Html.DisplayFor(modelItem => temp.LogoUrl)" width="48" /></td>
-                        <td><a href="Kryptomeny/Podrobnosti?id=@temp.Id">@Html.DisplayFor(modelItem => temp.Nazov)</a></td>
-                        <td>@Html.DisplayFor(modelItem => temp.Cena)</td>
-                        @if (temp.Zmena >= 0)
-                        {
-                            <td class="vpluse">@Html.DisplayFor(modelItem => temp.Zmena)</td>
-                            <td class="vpluse">@Html.DisplayFor(modelItem => temp.ZmenaPercent)</td>
-                        }
-                        else
-                        {
-                            <td class="vminuse">@Html.DisplayFor(modelItem => temp.Zmena)</td>
-                            <td class="vminuse">@Html.DisplayFor(modelItem => temp.ZmenaPercent)</td>
-                        }
-                        <td>@Html.DisplayFor(modelItem => temp.PocetTokenov)</td>
-                        <td>@Html.DisplayFor(modelItem => temp.CenaCelkovo)</td>
-                        @if (User.IsInRole("Admin")) {
-                            <td>
-                                <button type="button" class="btn btn-primary" onclick="window.location.href='Kryptomeny/Uprav?id=@temp.Id'">Uprav</button>
-                                <button type="button" class="btn btn-danger" onclick="deleteFunction('@temp.Id')">Zmaž</button>
-                            </td>
-                        }
-                    </tr>
-               }
-            }
+                @{ foreach (var temp in Model)
+                    {
+                        <tr>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+
+                                <td>
+                                    <label class="prepinac">
+                                        <input type="checkbox" onclick="putFunction('@temp.Id')">
+                                        <span class="btnOblubene round"></span>
+                                    </label>
+                                </td>
+                            }
+                            <td><img src="@Html.DisplayFor(modelItem => temp.LogoUrl)" width="48" /></td>
+                            <td><a href="Kryptomeny/Podrobnosti?id=@temp.Id">@Html.DisplayFor(modelItem => temp.Nazov)</a></td>
+                            <td>@Html.DisplayFor(modelItem => temp.Cena)</td>
+                            @if (temp.Zmena >= 0)
+                            {
+                                <td class="vpluse">@Html.DisplayFor(modelItem => temp.Zmena)</td>
+                                <td class="vpluse responzivnaTabulka">@Html.DisplayFor(modelItem => temp.ZmenaPercent)</td>
+                            }
+                            else
+                            {
+                                <td class="vminuse">@Html.DisplayFor(modelItem => temp.Zmena)</td>
+                                <td class="vminuse responzivnaTabulka">@Html.DisplayFor(modelItem => temp.ZmenaPercent)</td>
+                            }
+                            <td class="responzivnaTabulka">@Html.DisplayFor(modelItem => temp.PocetTokenov)</td>
+                            <td class="responzivnaTabulka">@Html.DisplayFor(modelItem => temp.CenaCelkovo)</td>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <td>
+                                    <button type="button" class="btn btn-primary responzivnaTabulka" onclick="window.location.href='Kryptomeny/Uprav?id=@temp.Id'">Uprav</button>
+                                    <button type="button" class="btn btn-danger responzivnaTabulka" onclick="deleteFunction('@temp.Id')">Zmaž</button>
+                                </td>
+                            }
+                        </tr>
+                    }
+                }
         </table>
     </div>
 </section>
 
-<script runat="server">
-    this.Zmena.Attributes.Add("class", "vpluse");
-</script>
+<script runat="server">this.Zmena.Attributes.Add("class", "vpluse");</script>
 
-<script>
-    function putFunction(par) {
+<script>function putFunction(par) {
         var http = new XMLHttpRequest();
         http.open("PUT", "https://localhost:5001/api/KryptomenyAsync/" + par);
         http.send();
@@ -74,6 +83,5 @@
             location.reload();
         }
         http.send();
-    }
-</script>
+    }</script>
 

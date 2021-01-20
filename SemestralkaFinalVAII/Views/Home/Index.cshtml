@@ -5,3 +5,64 @@
 <div class="text-center">
     <h1 class="display-4">Kryptománia</h1>
 </div>
+
+<p id="uvodText">
+    Vitajte na stránke Kryptománia. <br />
+    Stránka bola vytvorená pre účel sledovania vývoja cien najznámejších virtuálnych mien. <br />
+    Taktiež je možnosť prezrieť si najznámejšie zmenárne pre obchodovanie. <br />
+    Pokiaľ sa užívateľ registruje a následne prihlási, má možnosť ukladať si obľúbené meny do Portfólia.
+</p>
+
+<table class="table table-hover">
+    <thead id="hlavicka" class="position-sticky">
+        <tr>
+            <th scope="col">Aktivnych kryptomien</th>
+            <th scope="col">Pocet marketov</th>
+            <th scope="col">Aktualne v obehu (€)</th>
+        </tr>
+    </thead>
+    <tbody id="tabulka" class="biele">
+    </tbody>
+</table>
+
+<script>
+    let url = "https://api.coingecko.com/api/v3/global";
+        const tabula = document.getElementById("tabulka");
+        let data;
+        const http = new XMLHttpRequest();
+
+        function vytvor(temp) {
+            let temp0 = document.createElement("tr");
+            let temp2 = document.createElement("td");
+            let temp3 = document.createElement("td");
+            let temp4 = document.createElement("td");
+            let data = temp.data;
+            let aktivne = data["active_cryptocurrencies"];
+            let pocet = data["markets"];
+            let obeh = data["total_market_cap"];
+            let eur = obeh["eur"];
+            console.log(aktivne);
+            console.log(pocet);
+            console.log(eur);
+
+            temp2.appendChild(document.createTextNode(aktivne));
+            temp3.appendChild(document.createTextNode(pocet));
+            temp4.appendChild(document.createTextNode(eur));
+
+            temp0.appendChild(temp2);
+            temp0.appendChild(temp3);
+            temp0.appendChild(temp4);
+
+            return temp0;
+        }
+
+        http.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                data = JSON.parse(this.responseText);
+                tabula.appendChild(vytvor(data));
+            }
+        }
+
+        http.open("GET", url, true);
+    http.send();
+</script>

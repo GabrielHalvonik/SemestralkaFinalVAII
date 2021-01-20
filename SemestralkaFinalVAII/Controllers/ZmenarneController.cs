@@ -23,9 +23,14 @@ namespace SemestralkaFinalVAII.Controllers {
             return View(kryptomenyList.OrderBy(p => p.TrustScoreRank).ToList());
         }
 
+        public IActionResult LoadZmenarne() {
+            ReloadFromApi();
+            return RedirectToAction("index", "Zmenarne");
+        }
+
         [HttpGet]
         public void ReloadFromApi() {
-            Context.Kryptomeny.RemoveRange(Context.Kryptomeny);
+            Context.Zmenarne.RemoveRange(Context.Zmenarne);
             const string url = "https://api.coingecko.com/api/v3/exchanges";
             WebClient client = new WebClient();
             string str = client.DownloadString(url);
