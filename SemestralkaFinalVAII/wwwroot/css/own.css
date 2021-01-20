@@ -1,0 +1,104 @@
+﻿.dark-mode {
+    background: #252525;
+    color: #cfcccc;
+}
+
+#navigacia {
+    position: sticky;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: #1C1F21;
+    border-bottom: 2px solid #cfcccc;
+}
+
+#banner {
+    padding-top: 4%;
+    padding-bottom: 4%;
+    background: #1C1F21;
+}
+
+#hlavicka {
+    position: fixed;
+    padding-top: 40px;
+    background: #38404A;
+    color: #cfcccc;
+    font-weight: bold;
+}
+
+.prepinac {
+    position: relative;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+}
+
+.prepinac input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.btnOblubene {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: gray;
+    transition: .2s;
+}
+
+input:checked + .btnOblubene {
+    background-color: lightgreen;
+}
+
+.btnOblubene.round {
+    border-radius: 50px;
+}
+
+.biele {
+    color: #dfdddd;
+}
+
+.logoimg {
+    width: 38px;
+    height: 38px;
+    margin-right: 5px;
+}
+
+.formular {
+    padding-top: 40px;
+}
+
+.table-hover > tbody > tr:hover {
+    background-color: #d9edf7;
+}
+
+.vpluse {
+    color: green;
+}
+
+.vminuse {
+    color: darkred;
+}
+
+.rozsirene {
+    border-left: 0px;
+    border-right: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.btnOn {
+    background-color: green;
+    border-radius: 50%;
+}
+
+.btnOff {
+    background-color: red;
+    border-radius: 50%;
+}
+
