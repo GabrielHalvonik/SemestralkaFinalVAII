@@ -1,0 +1,51 @@
+﻿@model IEnumerable<SemestralkaVAII.Models.ZmenarenData>
+
+<section>
+    <div>
+        <table class="table table-hover rozsirene" id="Meny">
+            <thead id="hlavicka" class="position-sticky thead-dark">
+                <tr>
+                    <th scope="col">Rank</th>
+                    <th scope="col">Logo</th>
+                    <th scope="col">Nazov</th>
+                    <th scope="col">Rok</th>
+                    <th scope="col">Krajina</th>
+                    <th scope="col">Skore</th>
+                    <th scope="col">Objem (btc/24h)</th>
+                    <th scope="col">Link</th>
+                </tr>
+            </thead>
+            <tbody id="tabulka" class="biele">
+                @{ foreach (var temp in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => temp.TrustScoreRank)</td>
+                            <td><img src="@Html.DisplayFor(modelItem => temp.Image)" width="48" /></td>
+                            <td>@Html.DisplayFor(modelItem => temp.Name)</td>
+                            <td>@Html.DisplayFor(modelItem => temp.YearEstablished)</td>
+                            <td>@Html.DisplayFor(modelItem => temp.Country)</td>
+                            <td>@Html.DisplayFor(modelItem => temp.TrustScore)</td>
+                            <td>@Html.DisplayFor(modelItem => temp.TradeVolume24HBtc)</td>
+                            <td><a href="@temp.Url">Link</a></td>
+                        </tr>
+                    }
+                }
+        </table>
+    </div>
+</section>
+
+@*<script>function putFunction(par) {
+        var http = new XMLHttpRequest();
+        http.open("PUT", "https://localhost:5001/api/KryptomenyAsync/" + par);
+        http.send();
+    }
+
+    function deleteFunction(par) {
+        var http = new XMLHttpRequest();
+        http.open("DELETE", "https://localhost:5001/api/KryptomenyAsync/" + par);
+        http.onreadystatechange = () => {
+            location.reload();
+        }
+        http.send();
+    }</script>*@
+
