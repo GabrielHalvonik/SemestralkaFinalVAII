@@ -29,7 +29,7 @@ Registered user has the option to save favourite cryptocurrency to own portfolio
 ##### Portfolio page (User view)
 	This page is accessible only to logged in users.
 	The user has the ability to view his favorite cryptocurrencies, or remove them from the list of favorites.
-  The list is stored in the PostgreSQL database, where each logged in user has his own list.
+  	The list is stored in the PostgreSQL database, where each logged in user has his own list.
 ![](https://raw.githubusercontent.com/GabrielHalvonik/SemestralkaFinalVAII/main/manual_res/portfolio.png)
 
 ##### Excahnges page (Host view)
