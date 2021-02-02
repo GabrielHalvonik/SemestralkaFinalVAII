@@ -24,13 +24,13 @@ Registered user has the option to save favourite cryptocurrency to own portfolio
 	This page contains a list of cryptocurrencies along with their additional information, such as price, market share, changes in the last 24 hours, number of tokens...
 	The data are stored in a local database (PostgreSQL). Admin has the ability to change this data, or load the current accurate data from the CoinGecko API.
 	The logged-in user has the option to add his favorite currency to portfolio.
-![](https://raw.githubusercontent.com/GabrielHalvonik/SemestralkaFinalVAII/main/manual_res/crypto.png)
+![](https://raw.githubusercontent.com/GabrielHalvonik/SemestralkaFinalVAII/main/manual_res/crypto_admin.png)
 
 ##### Portfolio page (User view)
 	This page is accessible only to logged in users.
 	The user has the ability to view his favorite cryptocurrencies, or remove them from the list of favorites.
   	The list is stored in the PostgreSQL database, where each logged in user has his own list.
-![](https://raw.githubusercontent.com/GabrielHalvonik/SemestralkaFinalVAII/main/manual_res/portfolio.png)
+![](https://raw.githubusercontent.com/GabrielHalvonik/SemestralkaFinalVAII/main/manual_res/portfolio_user.png)
 
 ##### Excahnges page (Host view)
 	The page contains a list of exchanges with detailed information.
